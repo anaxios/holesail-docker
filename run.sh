@@ -25,6 +25,10 @@ success() {
   print "$GREEN" "$1"
 }
 
+get_connector_my-mc() {
+  printf "$(node /fetch-my-mc-connector.js)"
+}
+
 cmd_argument_builder () {
   local args="";
   case "$MODE" in
@@ -50,6 +54,11 @@ cmd_argument_builder () {
       [[ "$ROLE" = "admin" ]]  && args="$args --role admin";
       [[ "$ROLE" = "user" ]]   && args="$args --role user";
       [[ "$CONNECTOR" ]]       && args="$args --connector $CONNECTOR";
+      ;;
+    "my-mc")
+      [[ "$PORT" ]]            && args="$args --port $PORT";
+      [[ "$HOST" ]]            && args="$args --host $HOST";
+      [[ "$CONNECTOR" ]]       && args="$args $(get_connector_my-mc)";
       ;;
   esac	
 
