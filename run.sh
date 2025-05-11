@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#set -x
+
+pid=0
+
 CYAN="\033[1;96m"
 RED="\033[0;91m"
 GREEN="\033[0;92m"
@@ -52,7 +56,6 @@ cmd_argument_builder () {
   printf "%s" "$args";
 }
 
-
 ARGS="$(cmd_argument_builder)"
 
 if [[ ! $ARGS ]]; then
@@ -60,5 +63,30 @@ if [[ ! $ARGS ]]; then
   exit 1
 fi
 
-holesail $ARGS
+# SIGUSR1-handler
+# my_handler() {
+#   echo "my_handler"
+# }
 
+term_handler() {
+  if [ $pid -ne 0 ]; then
+    kill -SIGTERM "$pid"
+    wait "$pid"
+  fi
+  exit 143; # 128 + 15 -- SIGTERM
+}
+
+# setup handlers
+# on callback, kill the last background process, which is `tail -f /dev/null` and execute the specified handler
+#trap 'kill ${!}; my_handler' SIGUSR1
+trap 'kill ${!}; term_handler' SIGTERM
+
+# run application
+holesail $ARGS &
+pid="$!"
+
+# wait forever
+while true
+do
+  tail -f /dev/null & wait ${!}
+done
