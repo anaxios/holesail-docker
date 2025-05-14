@@ -88,7 +88,7 @@ term_handler() {
 # setup handlers
 # on callback, kill the last background process, which is `tail -f /dev/null` and execute the specified handler
 #trap 'kill ${!}; my_handler' SIGUSR1
-trap 'kill ${!}; term_handler' SIGTERM
+trap 'kill ${!}; term_handler' SIGTERM SIGINT
 
 # run application
 holesail $ARGS &
