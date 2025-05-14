@@ -16,5 +16,6 @@ ENV PASSWORD admin
 ENV ROLE user 
 ENV CONNECTOR ""
 ENV FORCE ""
+ENV UDP false
 
 ENTRYPOINT [ "/run.sh" ]
