@@ -5,7 +5,7 @@ COPY run.sh .
 COPY fetch-my-mc-connector.js .
 RUN chmod +x run.sh
 
-RUN npm install -g holesail@2.0.3
+RUN npm install -g holesail@2.1.0
 
 ENV MODE server
 ENV HOST 0.0.0.0
