@@ -14,7 +14,7 @@ ENV PUBLIC true
 ENV USERNAME admin
 ENV PASSWORD admin
 ENV ROLE user 
-#ENV CONNECTOR ""
+ENV KEY ""
 #ENV FORCE ""
 
 ENTRYPOINT [ "/run.sh" ]
