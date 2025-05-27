@@ -35,16 +35,16 @@ cmd_argument_builder () {
     "client")
       [[ "$PORT" ]]            && args="$args --port $PORT";
       [[ "$HOST" ]]            && args="$args --host $HOST";
-      [[ "$CONNECTOR" ]]       && args="$args $CONNECTOR";
-      [[ "$UDP" ]]             && args="$args --udp";
+      [[ "$KEY" ]]             && args="$args $KEY";
+      [[ "$UDP" = "true" ]]    && args="$args --udp";
       ;;
     "server")
       [[ "$PORT" ]]            && args="$args --live $PORT";
       [[ "$HOST" ]]            && args="$args --host $HOST";
       [[ "$PUBLIC" = "true" ]] && args="$args --public";
       [[ "$FORCE" = "true" ]]  && args="$args --force";
-      [[ "$CONNECTOR" ]]       && args="$args --connector $CONNECTOR";
-      [[ "$UDP" ]]             && args="$args --udp";
+      [[ "$KEY" ]]             && args="$args --key $KEY";
+      [[ "$UDP" = "true" ]]    && args="$args --udp";
       ;;
     "filemanager")
       args="--filemanager";
@@ -55,14 +55,14 @@ cmd_argument_builder () {
       [[ "$PASSWORD" ]]        && args="$args --password $PASSWORD";
       [[ "$ROLE" = "admin" ]]  && args="$args --role admin";
       [[ "$ROLE" = "user" ]]   && args="$args --role user";
-      [[ "$CONNECTOR" ]]       && args="$args --connector $CONNECTOR";
-      [[ "$UDP" ]]             && args="$args --udp";
+      [[ "$KEY" ]]             && args="$args --key $KEY";
+      [[ "$UDP" = "true" ]]    && args="$args --udp";
       ;;
     "my-mc")
       [[ "$PORT" ]]            && args="$args --port $PORT";
       [[ "$HOST" ]]            && args="$args --host $HOST";
-      [[ "$CONNECTOR" ]]       && args="$args $(get_connector_my-mc)";
-      [[ "$UDP" ]]             && args="$args --udp";
+      [[ "$KEY" ]]             && args="$args $(get_connector_my-mc)";
+      [[ "$UDP" = "true" ]]    && args="$args --udp";
       ;;
   esac	
 
