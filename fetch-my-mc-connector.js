@@ -1,4 +1,4 @@
-const apiKey = process.env.CONNECTOR;
+const apiKey = process.env.MY_MC_API_KEY;
 
 const result = fetch('https://api.my-mc.link/my-hash',{
     method: "GET",
