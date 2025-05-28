@@ -9,5 +9,9 @@ const result = fetch('https://api.my-mc.link/my-hash',{
             const r = await response.json();
             if (r.success == true) {
                 console.log(r.message);
-            }      
+            } else {
+                throw new Error("failed to fetch holesail key");
+            }
+        }).catch(err => {
+            throw Error(err);
         })

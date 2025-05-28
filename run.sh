@@ -25,8 +25,8 @@ success() {
   print "$GREEN" "$1"
 }
 
-get_connector_my-mc() {
-  printf "$(node /fetch-my-mc-connector.js)\n"
+get_connector_my_mc() {
+  KEY="$(/usr/local/bin/node /fetch-my-mc-connector.js)"
 }
 
 cmd_argument_builder () {
@@ -61,7 +61,7 @@ cmd_argument_builder () {
     "my-mc")
       [[ "$PORT" ]]            && args="$args --port $PORT";
       [[ "$HOST" ]]            && args="$args --host $HOST";
-      [[ "$KEY" ]]             && args="$args $(get_connector_my-mc)";
+      [[ "$KEY" ]]             && args="$args --connect $KEY";
       [[ "$UDP" = "true" ]]    && args="$args --udp";
       ;;
   esac	
@@ -69,17 +69,10 @@ cmd_argument_builder () {
   printf "%s" "$args";
 }
 
-ARGS="$(cmd_argument_builder)"
-
-if [[ ! $ARGS ]]; then
-  error "Invalid Mode."
-  exit 1
-fi
-
 # SIGUSR1-handler
-# my_handler() {
-#   echo "my_handler"
-# }
+my_handler() {
+  echo "my_handler"
+}
 
 term_handler() {
   if [ $pid -ne 0 ]; then
@@ -89,17 +82,26 @@ term_handler() {
   exit 143; # 128 + 15 -- SIGTERM
 }
 
+
+if ! get_connector_my_mc; then exit 1; fi
+
+ARGS="$(cmd_argument_builder)"
+
+if [[ ! $ARGS ]]; then
+  error "Invalid Mode."
+  exit 1
+fi
+
 # setup handlers
 # on callback, kill the last background process, which is `tail -f /dev/null` and execute the specified handler
 #trap 'kill ${!}; my_handler' SIGUSR1
 trap 'kill ${!}; term_handler' SIGTERM SIGINT
 
 # run application
-holesail $ARGS &
+/usr/local/bin/holesail $ARGS &
 pid="$!"
 
 # wait forever
-while true
-do
+while true; do
   tail -f /dev/null & wait ${!}
 done
