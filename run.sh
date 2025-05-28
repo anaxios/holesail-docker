@@ -26,7 +26,7 @@ success() {
 }
 
 get_connector_my-mc() {
-  printf "$(node /fetch-my-mc-connector.js)"
+  printf "$(node /fetch-my-mc-connector.js)\n"
 }
 
 cmd_argument_builder () {

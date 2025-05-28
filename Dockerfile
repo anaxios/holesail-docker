@@ -7,14 +7,16 @@ RUN chmod +x run.sh
 
 RUN npm install -g holesail@2.1.0
 
-ENV MODE server
-ENV HOST 0.0.0.0
-ENV PORT 8989
-ENV PUBLIC true
-ENV USERNAME admin
-ENV PASSWORD admin
-ENV ROLE user 
-ENV KEY ""
+FROM base AS prod
+
+ENV MODE=server
+ENV HOST=0.0.0.0
+ENV PORT=8989
+ENV PUBLIC=true
+ENV USERNAME=admin
+ENV PASSWORD=admin
+ENV ROLE=user 
+ENV KEY=""
 #ENV FORCE ""
 
 ENTRYPOINT [ "/run.sh" ]
